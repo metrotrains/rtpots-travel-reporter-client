@@ -1,0 +1,128 @@
+<!-- Sidebar start -->
+    <nav class="d-none d-md-block bg-light sidebar" style="width: 250px">
+      <a class="navbar-brand mr-0" >&nbsp;</a> <!-- For some reason firefox needs this to display properly? -->
+      <div class="sidebar-sticky">
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Overview</span>
+        </h6>
+
+        <div id="accordion">
+          <div class="card nav flex-column">
+            <div id="headingOne">
+                    <a class="nav-link active" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" href="#" ng-click="activeSection = 'mostRecent'" ng-class="{active: activeSection == 'mostRecent'}">
+                      <i class="fa fa-home fa-lg" aria-hidden="true"></i>
+                      &nbsp;  Most Recent
+                    </a>
+            </div>
+
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+              <div class="card-body">
+                <select select-watcher options="distinctUnits" id="first-select" class="selectpicker" multiple data-live-search="true" ng-model="mostRecentSelect"/>
+              </div>
+            </div>
+
+          </div>
+          <div class="card">
+            <div id="headingTwo">
+                    <a class="nav-link" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" href="#" ng-click="activeSection = 'unitHistory'" ng-class="{active: activeSection == 'unitHistory'}">
+                        <i class="fa fa-train fa-lg"></i>
+                        &nbsp;  Unit History
+                    </a>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+              <div class="card-body">
+                <select select-watcher options="distinctUnits" id="second-select" class="selectpicker" multiple data-max-options="4" data-live-search="true" ng-model="unitHistorySelect"/>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div id="headingFour">
+                    <a class="nav-link" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" href="#" ng-click="activeSection = 'faults'" ng-class="{active: activeSection == 'faults'}">
+                      <!--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>-->
+                        <i class="fa fa-exclamation-triangle fa-lg"></i>
+			&nbsp;  Bug History
+                    </a> 
+            </div> 
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion"> 
+              <div class="card-body"> 
+                <select select-watcher options="distinctUnits" id="second-select" class="selectpicker" multiple data-max-options="4" data-live-search="true" ng-model="faultSelect"/>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div id="headingFive">
+                    <a class="nav-link" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive" href="#" ng-click="activeSection = 'reports'" ng-class="{active: activeSection == 'reports'}">
+                      <!--<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>-->
+                        <i class="fa fa-file-text-o fa-lg"></i>
+			&nbsp;  Reports
+                    </a> 
+            </div> 
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion"> 
+              <div class="card-body"> 
+ 
+                <ul class="nav flex-column"> 
+                  <li class="nav-item"> 
+                    <a class="nav-link"> 
+                      Location Traffic 
+                    </a> 
+                  </li> 
+                  <li class="nav-item"> 
+                    <a class="nav-link"> 
+                        Unit Travel 
+                    </a> 
+                  </li> 
+                  <li class="nav-item"> 
+                    <a class="nav-link"> 
+                      TDN & Location Traffic 
+                    </a> 
+                  </li> 
+                  <li class="nav-item"> 
+                    <a class="nav-link"> 
+                      Location Status 
+                    </a> 
+                  </li> 
+                </ul> 
+                 
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Events by siding</span>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Siding 1
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              Siding 2 
+            </a> 
+          </li> 
+          <li class="nav-item"> 
+            <a class="nav-link" href="#"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 
+              Siding 3 
+            </a> 
+          </li> 
+          <li class="nav-item"> 
+            <a class="nav-link" href="#"> 
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg> 
+              ...
+            </a>
+          </li>
+        </ul>
+
+        
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Something else</span>
+        </h6>
+      </div>
+    </nav>
+<!-- Sidebar end -->

@@ -1,0 +1,192 @@
+<navbar/>
+<sidebar distinct-units="distinctUnits" most-recent-select="mostRecent.select" unit-history-select="unitHistory.select" fault-select="faults.select" active-section="activeSection" set-unit-history="setUnitHistory"/>
+
+<div class="container-fluid">
+  <div class="row">
+    <main role="main" class="col-md-9 mr-sm-auto col-lg-10 pt-3" style="left: 250px">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{utils.camelToWords(activeSection)}}</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button ng-click="odometerReading.unit = unitHistory.select[0];" ng-if="activeSection=='unitHistory' && (unitHistory.select.length == 1)" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#odometerModal">Add Reading</button>
+            <button class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+        </div>
+      </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-inline">
+	<div class="form-group">
+		<start-datetime-picker datepickers="datepickers" class="input-group date" id="start-datetimepicker" data-target-input="nearest"/>
+	</div>
+	<div class="form-group">
+		<end-datetime-picker datepickers="datepickers" class="input-group date" id="end-datetimepicker" data-target-input="nearest"/>
+	</div>
+	<div class="form-group" ng-mouseout="hovering=false" ng-mouseover="hovering=true">
+        <div class="input-group date">
+          <div class="">
+            <a href="#" ng-click="datepickers.start = null; datepickers.end = null" style="color: inherit; text-decoration: inherit;" class="input-group-text">
+		<i ng-show="!hovering" class="fa fa-refresh"></i>
+		<i ng-show="hovering" class="fa fa-refresh fa-spin fa-fw"></i>&nbsp; RESET
+	    </a>
+          </div>
+        </div>
+	</div>
+      </div>
+    </div>
+  </div>
+    <div ng-show="activeSection=='mostRecent'">
+	    <table id="tabl1" datatable="ng" dt-options="dtOptions" dt-instance="mostRecentDTInstanceCallback" class="table table-hover table-responsive-sm" style="width:100%"><!-- Table start -->
+		<thead class="thead-dark">
+			<tr>
+				<th><b>Unit</b></th>
+				<th><b>Time</b></th>
+				<td ng-hide="true"><b>Timestamp</b></td> <!-- hack solution so sort works correctly (datatables struggles with sorting converted time) -->
+				<th><b>Event type</b></th>
+				<th><b>Location</b></th>
+				<th><b>Last location</b></th>
+				<th><b>Odometer</b></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-show="mostRecent.display" ng-repeat="position in mostRecent.data | timeFilter: datepickers | multipleUnitFilter: mostRecent.select" >
+				<td ng-click="setUnitHistory(position.unit)"><a style="color: inherit;" href="">{{position.unit}}</a></td>
+				<td ng-hide="true">{{position.time}}</td>
+				<td>{{utils.convertTimestamp(position.time)}}</td>
+				<td>{{position.event_type}}</td>
+				<td>{{position.location + " " + position.sub_location}} </td>
+				<td>{{position.last_location + " " + position.last_sub_location}}</td>
+				<td><a>{{position.adjusted_value}}</a><a ng-click="odometerReading.unit = position.unit;" href="#"><img data-toggle="modal" data-target="#odometerModal" align="right" width="24" height="24" src="http://127.0.0.1:8080/images/pencil.svg"/></a></td>
+			</tr>
+		</tbody>
+	    </table> <!-- Table end -->
+    </div>
+
+    <div ng-show="activeSection=='unitHistory'">
+	    <table id="tabl2" datatable="ng" dt-options="dtOptions" dt-instance="unitHistoryDTInstanceCallback" class="table table-hover table-responsive-sm" style="width:100%"><!-- Table start -->
+		<thead class="thead-dark">
+			<tr>
+				<th><b>Unit</b></th>
+				<th><b>Time</b></th>
+				<td ng-hide="true"><b>Timestamp</b></td> <!-- hack solution so sort works correctly (to prevent lexicographic sort, otherwise for e.g. 9:00am > 12:00pm) -->
+				<th><b>Event type</b></th>
+				<th><b>Location</b></th>
+				<th><b>Last location</b></th>
+				<th><b>Travel</b></th>
+				<th><b>Adjustment Type</b></th>
+				<th><b>Odometer</b></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-show="unitHistory.display" ng-repeat="position in unitHistory.data | timeFilter: datepickers | multipleUnitFilter: unitHistory.select" >
+				<td>{{position.unit}}</a></td>
+				<td ng-hide="true">{{position.time}}</td>
+				<td>{{utils.convertTimestamp(position.time)}}</td>
+				<td>{{position.event_type}}</td>
+				<td>{{position.location + " " + position.sub_location}} </td>
+				<td>{{position.last_location + " " + position.last_sub_location}}</td>
+				<td>{{position.travel}}</td>
+				<td>{{(position.odometer_reading ? "MANUAL" : "TRAVEL")}}</td>
+				<td>{{position.adjusted_value}}</td>
+			</tr>
+		</tbody>
+	    </table> <!-- Table end -->
+    </div>
+
+    <div ng-show="activeSection=='faults'">
+	    <table id="tabl4" datatable="ng" dt-options="dtOptions" dt-instance="faultsDTInstanceCallback" class="table table-hover" style="width:100%"><!-- Table start -->
+		<thead class="thead-dark">
+			<tr>
+				<th rowspan="2"><b>Unit</b></th>
+                                <th rowspan="2"><b>Fault Type</b></th>
+				<th colspan="3"><b>First Event</b></th>
+				<th colspan="3"><b>Second Event</b></th>
+			</tr>
+			<tr>
+                                <th><b>Time</b></th>
+				<td ng-hide="true"><b>Timestamp</b></td> <!-- hack solution so sort works correctly (datatables struggles with sorting converted time) -->
+                                <th><b>Type</b></th>
+                                <th><b>Location</b></th>
+                                <th><b>Time</b></th>
+				<td ng-hide="true"><b>Timestamp</b></td> <!-- hack solution so sort works correctly (datatables struggles with sorting converted time) -->
+                                <th><b>Type</b></th>
+                                <th><b>Location</b></th>
+			</tr>
+		</thead>
+		<tbody class="table table-hover">
+			<tr ng-show="faults.display" ng-repeat="fault in faults.data" >
+                                <td>{{fault.first_event.unit}}</a></td>
+                                <td>{{fault.error_type}}</td>
+				<td ng-hide="true">{{fault.first_event.time}}</td>
+                                <td>{{utils.convertTimestamp(fault.first_event.time)}}</td>
+                                <td>{{fault.first_event.event_type}}</td>
+                                <td>{{fault.first_event.location + " " + fault.first_event.sub_location}} </td>
+				<td ng-hide="true">{{fault.second_event.time}}</td>
+                                <td>{{utils.convertTimestamp(fault.second_event.time)}}</td>
+                                <td>{{fault.second_event.event_type}}</td>
+                                <td>{{fault.second_event.location + " " + fault.second_event.sub_location}} </td>
+                        </tr>
+			<!--<tr ng-if="showRow" ng-repeat-start="fault in faults" >
+				<th><b>From</b></th>
+                                <td>{{fault.first_event.unit}}</a></td>
+                                <td>{{utils.convertTimestamp(fault.first_event.time)}}</td>
+                                <td>{{fault.error_type}}</td>
+                                <td>{{fault.first_event.event_type}}</td>
+                                <td>{{fault.first_event.location + " " + fault.first_event.sub_location}} </td>
+                                <td>{{fault.first_event.last_location + " " + fault.first_event.last_sub_location}}</td>
+                                <td>{{fault.first_event.travel}}</td>
+			</tr>
+			<tr ng-if="showRow == false" ng-repeat-end>
+				<th ng-click="showRow=!showRow"><b>To</b></th>
+                                <td>{{fault.second_event.unit}}</a></td>
+                                <td>{{utils.convertTimestamp(fault.second_event.time)}}</td>
+                                <td>{{fault.error_type}}</td>
+                                <td>{{fault.second_event.event_type}}</td>
+                                <td>{{fault.second_event.location + " " + fault.second_event.sub_location}} </td>
+                                <td>{{fault.second_event.last_location + " " + fault.second_event.last_sub_location}}</td>
+                                <td>{{fault.second_event.travel}}</td>
+			</tr>-->
+		</tbody>
+	    </table> <!-- Table end -->
+    </div>
+
+  </div> <!-- row end -->
+</div> <!-- container-fluid end -->
+
+<div class="modal fade" id="odometerModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Odometer Reading (Unit: {{odometerReading.unit}})</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+		  <div class="form-group">
+		    <label for="unit">Unit:</label>
+		    <input ng-model="odometerReading[odometerReading.unit].unit" ng-bind="odometerReading[odometerReading.unit].unit = odometerReading.unit" ng-disabled="true" class="form-control" id="unit">
+		  </div>
+		  <div class="form-group">
+		    <label for="odometer">Odometer:</label>
+		    <input ng-model="odometerReading[odometerReading.unit].value" class="form-control" id="odometer" type="number">
+		  </div>
+		  <!--<div class="form-group">
+		    <label for="datetimepicker">Date of Read:</label>
+		    <datetime-picker ng-model="odometerReading[odometerReading.unit].time_of_read" class="input-group date" id="datetimepicker" data-target-input="nearest"/>
+		  </div>-->
+		</form> 
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button ng-disabled="!odometerReading[odometerReading.unit].value" type="button" class="btn btn-primary" data-dismiss="modal" ng-click="submitOdometerReading(odometerReading[odometerReading.unit])">Submit</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>

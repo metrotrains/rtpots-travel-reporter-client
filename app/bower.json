@@ -1,0 +1,33 @@
+{
+  "name": "rtpotsTravelReporterClient",
+  "main": "app.js",
+  "authors": [
+    "lmcewan <lachlan.mcewan@metrotrains.com.au>"
+  ],
+  "description": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.7.8",
+    "angular-ui-router": "^1.0.18",
+    "angular-route": "^1.7.8",
+    "bootstrap": "4.3",
+    "jquery": "3.3.1",
+    "angular-datatables": "0.6.4",
+    "bootstrap-select": "^1.13.12",
+    "popper.js": "^1.16.0",
+    "tempusdominus-bs4": "^5.1.2",
+    "moment": "^2.24.0",
+    "tether": "^1.4.7"
+  },
+  "resolutions": {
+    "bootstrap": "4.3"
+  }
+}
